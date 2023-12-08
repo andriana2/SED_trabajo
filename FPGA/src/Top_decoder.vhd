@@ -20,29 +20,29 @@ ARCHITECTURE dataflow OF Top_decoder IS
         led  : OUT std_logic_vector(6 DOWNTO 0)
     );
     END COMPONENT decoder;
+    
+    Type ssegms_code_array is array (2 DOWNTO 0) of std_logic_vector(3 DOWNTO 0);
+    SIGNAL ssegms_code : ssegms_code_array;
 
-    SIGNAL fcode, scode, tcode : std_logic_vector(3 DOWNTO 0);
 
 BEGIN
 
-    
-        fcode <= std_logic_vector(to_unsigned(seconds mod 10, 4));
-        scode <= std_logic_vector(to_unsigned((seconds / 10) mod 10, 4));
-        tcode <= std_logic_vector(to_unsigned((seconds / 100) mod 10, 4));
-
+        digits: FOR i IN 0 TO 2 GENERATE
+        ssegms_code(i) <= std_logic_vector(to_unsigned((seconds /(10**i)) mod 10, 4));
+        END GENERATE digits;    
 
     fdecoder_inst: decoder PORT MAP (
-        code => fcode,
+        code => ssegms_code(0),
         led  => fsseg
     );
 
     sdecoder_inst: decoder PORT MAP (
-        code => scode,
+        code => ssegms_code(1),
         led  => ssseg
     );
 
     tdecoder_inst: decoder PORT MAP (
-        code => tcode,
+        code => ssegms_code(2),
         led  => tsseg
     );
 
