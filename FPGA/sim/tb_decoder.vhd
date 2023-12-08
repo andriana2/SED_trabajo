@@ -25,8 +25,8 @@ begin
     begin
         -- EDIT Adapt initialization as needed
         code <= (others => '0');
-
-        a: FOR i IN 0 to 10 LOOP
+        -- Cuenta atrás de 10 a 0
+        a: FOR i IN 10 DOWNTO 0 LOOP
         code <= std_logic_vector(to_unsigned(i,code'length));
         wait for 10ns;
         END LOOP;
@@ -35,10 +35,3 @@ begin
     end process;
 
 end tb;
-
--- Configuration block below is required by some simulators. Usually no need to edit.
-
-configuration cfg_tb_decoder of tb_decoder is
-    for tb
-    end for;
-end cfg_tb_decoder;
