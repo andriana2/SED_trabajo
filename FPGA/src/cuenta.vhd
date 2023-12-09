@@ -21,7 +21,7 @@ END ENTITY cuenta;
 ARCHITECTURE la OF cuenta IS
     
     BEGIN
-    PROCESS (CLK,CE)
+    PROCESS (CLK,RST_N,CE)
         variable max_time : positive := 900;
         VARIABLE seconds_s : POSITIVE := itime;
         VARIABLE FFT : STD_LOGIC := '0'; --FLAG FIRST TIME
@@ -33,6 +33,8 @@ ARCHITECTURE la OF cuenta IS
             FFT_check:IF FFT = '0' THEN
                         timecompare :IF itime>max_time THEN
                             seconds_s := max_time;
+                        ELSE
+                            seconds_s := itime;
                         END IF timecompare;
                     FFT := '1';
             END IF FFT_check;

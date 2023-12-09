@@ -1,10 +1,10 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity tb_Top_cuenta_decoder is
-end tb_Top_cuenta_decoder;
+entity tb_2Top_cuenta_decoder is
+end tb_2Top_cuenta_decoder;
 
-architecture tb of tb_Top_cuenta_decoder is
+architecture tb of tb_2Top_cuenta_decoder is
 
     component Top_cuenta_decoder
          generic(
@@ -37,7 +37,7 @@ begin
 
     dut : Top_cuenta_decoder
     generic map(
-            itime => 11
+            itime => 1
             )
     port map (CE       => CE,
               RST_N    => RST_N,
@@ -54,18 +54,11 @@ begin
 
     stimuli : process
     begin
-    -- Prueba CE
-        CE <= '0';
-        RST_N <= '1';
-        wait for 100ms;
-    -- Prueba inicio, cuenta atras y last10
+
+    -- Prueba explosión
         CE <= '1';
-        RST_N <= '0';
-        wait for 10ns;
-        RST_N <= '1';
-        wait for 2000ms;
+        wait for 1200ms;
      -- Prueba reset
-        CE <= '1';
         RST_N <= '0';
         wait for 10ns;
         RST_N <= '1';
