@@ -20,11 +20,11 @@ begin
     variable objetive : positive := clk_o/clk_f; -- Cantidad de ciclos a contar
     subtype count_t is natural range 0 to objetive; -- Cantidad de ciclos hasta flanco de subida o bajada
     variable count : count_t;
-    variable newClk_s : std_logic:='0'; -- Reloj de salida
+    variable newClk_s : std_logic:='1'; -- Reloj de salida
   begin
     if RST_N = '0' then
-      count := 1;
-      newClk_s := '0';
+      count := 0;
+      newClk_s := '1';
     elsif rising_edge(CLK) then
       count := count + 1; -- Con cada flanco de subida de la señal original se cuenta un ciclo
     end if;

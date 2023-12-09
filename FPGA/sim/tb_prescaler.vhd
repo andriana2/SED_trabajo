@@ -28,7 +28,7 @@ begin
 
     dut : Prescaler
     generic map(
-              clk_o  => 100000000, -- Original frequency
+              clk_o  => 10,--100000000, -- Original frequency
               clk_f  => 1   -- Final frequency
     )
     port map (
@@ -39,6 +39,20 @@ begin
     -- Clock generation
     TbClock <= not TbClock after TbPeriod/2 ;
     CLK <= TbClock;
-
+    -- RESET TEST
+    PROCESS
+    BEGIN
+        wait for 40 ns;
+        RST_N <= '0';
+        wait for 10ns;
+        RST_N<='1';
+        wait for 175ns;
+        RST_N <= '0';
+        wait for 10ns;
+        RST_N<='1';
+        wait for 100ns;
+        RST_N <= '0';
+        wait;
+    END PROCESS;
   
 end tb;
