@@ -9,6 +9,8 @@ ENTITY cuenta IS
     itime : positive := 120
     );
     PORT(
+    CE : in STD_LOGIC:= '0';
+    RST_N : in STD_LOGIC :='1';
     clk : in STD_LOGIC;
     seconds : out positive;
     ignition : out STD_LOGIC := '0';
@@ -19,13 +21,15 @@ END ENTITY cuenta;
 ARCHITECTURE la OF cuenta IS
     
     BEGIN
-    PROCESS (CLK)
+    PROCESS (CLK,CE)
         variable max_time : positive := 900;
         VARIABLE seconds_s : POSITIVE := itime;
         VARIABLE FFT : STD_LOGIC := '0'; --FLAG FIRST TIME
         
         BEGIN 
-            -- Se verifica que el tiempo introducido no supere el mï¿½ximo permitido. Solo se hace una vez por cuenta atrï¿½s.
+            RST_NIF: IF RST_N = '0' THEN FFT := '0'; END IF RST_NIF;
+            
+            -- Se verifica que el tiempo introducido no supere el máximo permitido. Solo se hace una vez por cuenta atrás.
             FFT_check:IF FFT = '0' THEN
                         timecompare :IF itime>max_time THEN
                             seconds_s := max_time;
@@ -33,14 +37,17 @@ ARCHITECTURE la OF cuenta IS
                     FFT := '1';
             END IF FFT_check;
             -- COUNT DOWN
-            IF rising_edge(CLK) and seconds_s/=0 THEN
-            seconds_s := seconds_s -1 ;
-            END IF;
-            seconds <= seconds_s;
-            -- IGNITION
-            IF seconds_s=0 THEN ignition <= '1'; END IF;
-            -- LAST 10 seconds
-            IF seconds_s<=10 THEN last10 <= '1'; END IF;
+            CEIF:IF CE = '1' THEN
+                IF rising_edge(CLK) and seconds_s/=0 THEN
+                seconds_s := seconds_s -1 ;
+                END IF;
+            END IF CEIF;
+                seconds <= seconds_s;
+                -- IGNITION
+                IF seconds_s=0 THEN ignition <= '1'; END IF;
+                -- LAST 10 seconds
+                IF seconds_s<=10 THEN last10 <= '1'; END IF;
+            
     END PROCESS;
 
 END ARCHITECTURE la;

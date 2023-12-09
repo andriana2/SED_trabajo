@@ -11,6 +11,8 @@ architecture tb_2_cuenta of tb_2cuenta is
         itime : positive := 120
         );
         PORT(
+        CE : in STD_LOGIC;
+        RST_N : in STD_LOGIC;
         clk : in STD_LOGIC;
         seconds : out positive;
         ignition : out STD_LOGIC := '0';
@@ -21,8 +23,9 @@ architecture tb_2_cuenta of tb_2cuenta is
     signal seconds : positive;
     signal ignition : STD_LOGIC;
     signal last10 : STD_LOGIC;
+    signal CE : STD_LOGIC := '0';
     
-    -- SEÑAL DE RELOJ ORIGINAL
+    -- SEï¿½AL DE RELOJ ORIGINAL
     constant TbPeriod : time := 10ns; -- EDIT Put right period here
     signal TbClock : std_logic := '1';
     signal clk     : std_logic;
@@ -61,7 +64,10 @@ begin
         itime => 11
         )
     port map 
-        (clk     => NewClk,
+        (
+         CE => CE,
+         RST_N => RST_N,
+         clk     => NewClk,
          seconds => seconds,
          ignition => ignition,
         last10 => last10
@@ -70,6 +76,16 @@ begin
     -- Clock generation
     TbClock <= not TbClock after TbPeriod/2;
     clk <= TbClock;
- 
+    
+    -- PRUEBA CON CE y RST_N
+    PROCESS
+    BEGIN
+    wait for 104 ms;
+    CE <= '1';
+    RST_N <= '0';
+    wait for 10 ns;
+    RST_N <= '1';
+    wait; 
+    END PROCESS;
 
 end tb_2_cuenta;
