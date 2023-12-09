@@ -10,7 +10,9 @@ ENTITY cuenta IS
     );
     PORT(
     clk : in STD_LOGIC;
-    seconds : out positive
+    seconds : out positive;
+    ignition : out STD_LOGIC := '0';
+    last10 : out STD_LOGIC := '0'
     );
 END ENTITY cuenta;
 
@@ -22,21 +24,23 @@ ARCHITECTURE la OF cuenta IS
         VARIABLE seconds_s : POSITIVE := itime;
         VARIABLE FFT : STD_LOGIC := '0'; --FLAG FIRST TIME
         
-        --variable seconds_s : positive:= IF (itime<max_time THEN itime ELSE max_time )END IF;
-
         BEGIN 
-            -- Se verifica que el tiempo introducido no supere el máximo permitido. Solo se hace una vez por cuenta atrás.
+            -- Se verifica que el tiempo introducido no supere el mï¿½ximo permitido. Solo se hace una vez por cuenta atrï¿½s.
             FFT_check:IF FFT = '0' THEN
                         timecompare :IF itime>max_time THEN
                             seconds_s := max_time;
                         END IF timecompare;
                     FFT := '1';
             END IF FFT_check;
-            
-            IF rising_edge(CLK) THEN
+            -- COUNT DOWN
+            IF rising_edge(CLK) and seconds_s/=0 THEN
             seconds_s := seconds_s -1 ;
             END IF;
             seconds <= seconds_s;
+            -- IGNITION
+            IF seconds_s=0 THEN ignition <= '1'; END IF;
+            -- LAST 10 seconds
+            IF seconds_s<=10 THEN last10 <= '1'; END IF;
     END PROCESS;
 
 END ARCHITECTURE la;
