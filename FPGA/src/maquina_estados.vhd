@@ -7,10 +7,10 @@ entity fsm is
     Port (
         RST_N    : in STD_LOGIC;
         CLK      : in STD_LOGIC;
-        CE       : in STD_LOGIC;
         last10   : in STD_LOGIC;
         ignition : in STD_LOGIC;
         equal    : in STD_LOGIC;
+        CE       : out STD_LOGIC;
         LIGHT    : out STD_LOGIC_VECTOR(0 to 15)
     );
 end fsm;
@@ -19,13 +19,13 @@ architecture Behavioral of fsm is
     type STATES is (S0, S1, S2);
     signal current_state : STATES := S0;
     signal next_state    : STATES;
-
+--CE meter los valores '0' no esta contando 
 begin
     state_register: process (RST_N, CLK)
     begin
-        if (RST_N = '1') or (CE = '0') then
+        if (RST_N = '0') then
             current_state <= S0;
-        elsif rising_edge(CLK) and CE = '1' then
+        elsif rising_edge(CLK) then
             current_state <= next_state;
         end if;
     end process;

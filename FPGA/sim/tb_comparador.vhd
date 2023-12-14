@@ -1,38 +1,39 @@
+
 library ieee;
 use ieee.std_logic_1164.all;
 
 entity tb_comparador is
 end tb_comparador;
 
+
 architecture tb of tb_comparador is
 
     component comparador
-    GENERIC (password : std_logic_vector(15 downto 0) := "0000000000000001");
+     GENERIC (password : std_logic_vector(4 downto 0) := "00001");
         port (switches : in std_logic_vector (password'range);
-              enable   : in std_logic;
-              reset    : in std_logic;
+              RST_N    : in std_logic;
               clk      : in std_logic;
               equal    : out std_logic);
     end component;
 
-    signal switches : std_logic_vector (15 downto 0);
-    signal enable   : std_logic;
-    signal reset    : std_logic;
+    signal switches : std_logic_vector (4 downto 0);
+    signal RST_N    : std_logic;
     signal clk      : std_logic;
     signal equal    : std_logic;
+    signal password : std_logic_vector(4 downto 0) := "00001";
+    
 
-    constant TbPeriod : time := 100 ns; -- EDIT Put right period here
+
+    constant TbPeriod : time := 1000 ns; -- EDIT Put right period here
     signal TbClock : std_logic := '0';
     signal TbSimEnded : std_logic := '0';
-    signal password : std_logic_vector(15 downto 0) := "0000000000000001";
 
 begin
 
     dut : comparador
-    generic map ( password => password)
+    generic map (password => password)
     port map (switches => switches,
-              enable   => enable,
-              reset    => reset,
+              RST_N    => RST_N,
               clk      => clk,
               equal    => equal);
 
@@ -45,36 +46,37 @@ begin
     stimuli : process
     begin
         -- EDIT Adapt initialization as needed
-        switches <= (others => '0');
-        enable <= '0';
+         switches <= (others => '0');
 
         -- Reset generation
         -- EDIT: Check that reset is really your reset signal
-        reset <= '0';
+        RST_N <= '0';
         wait for 100 ns;
-        reset <= '1';
+        RST_N <= '1';
         wait for 100 ns;
-        
-        enable <= '1';
+        RST_N <= '0';
         wait for 100 ns;
-        switches(14) <= '1';
-		wait for 100 ns;
-        switches(13) <= '1';
+        switches <= (others => '1');
         wait for 100 ns;
-        switches(12) <= '1';
-        wait for 100 ns;
-        switches(11) <= '1';
+        switches(4) <= '1';
         wait for 100 ns;
         switches <= (others => '0');
-        wait for 100 ns;
+        wait for 1000 ns;
+        switches(3) <= '1';
+        wait for 1000 ns;
+        switches <= (others => '0');
+        wait for 1000 ns;
+        switches(2) <= '1';
+        wait for 1000 ns;
+        switches <= (others => '0');
+        wait for 1000 ns;
+        switches(1) <= '1';
+        wait for 1000 ns;
+        switches <= (others => '0');
+        wait for 1000 ns;
         switches(0) <= '1';
-        wait for 100 ns;
-        switches(13) <= '1';
-        wait for 100 ns;
-        switches(12) <= '1';
-        wait for 100 ns;
-        switches(11) <= '1';
-        wait for 100 ns;
+        wait for 1000 ns;
+
         -- EDIT Add stimuli here
         wait for 100 * TbPeriod;
 

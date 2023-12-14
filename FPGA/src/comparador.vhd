@@ -7,9 +7,8 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity comparador is 
-    generic( password : std_logic_vector(15 downto 0));
+    generic( password : std_logic_vector(4 downto 0));
     port(switches : in std_logic_vector(password'range);
-        CE : in std_logic;
         RST_N : in std_logic;
         clk   : in std_logic;
         equal : out std_logic);
@@ -19,16 +18,14 @@ signal salida : std_logic;
 begin 
     process(RST_N, clk)
     begin 
-        if RST_N = '0' then
+        if RST_N = '1' then
             salida <= '0';
         else
             if rising_edge(clk) then 
-                if CE = '1' then
-                    if switches = password then
-                        salida <= '1';
-                    else
-                        salida <= '0';
-                    end if;
+                if switches = password then
+                    salida <= '1';
+                else
+                    salida <= '0';
                 end if;
             end if;
         end if;
