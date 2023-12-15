@@ -1,17 +1,17 @@
 -- CAMBIOS EN TOP DECODER Y TOP CUENTA-DECODER
--- [x]SOLO PASAN UN  VECTOR DE ACTIVACIÓN DE LOS DIFERENTES SEGMENTOS EN LUGAR DE UNO POR SEGMENTO
--- [x]DEBEN PASAR UN VECTOR DE HABILITACIÓN DE LOS DIFERENTES SEGMENTOS
--- [x]EL VECTOR DE ACTIVACIÓN DE LOS SEGMENTOS DEBE CAMBIAR AL MISMO TIEMPO QUE EL DE HABILITACIÓN DE LOS SEGMENTOS
--- [-]SE DEBE CREAR OTRA INSTANCIA DE PRESCALER PARA ADAPTAR EL RELOJ A LA FRECUENCIA DE REFRESCO
--- [] Actualizar TESTBENCH de Top DECODER
--- [] Actualizar TESTBENCH de Top CUENTA-DECODER
+-- [x]SOLO PASAN UN  VECTOR DE ACTIVACIï¿½N DE LOS DIFERENTES SEGMENTOS EN LUGAR DE UNO POR SEGMENTO
+-- [x]DEBEN PASAR UN VECTOR DE HABILITACIï¿½N DE LOS DIFERENTES SEGMENTOS
+-- [x]EL VECTOR DE ACTIVACIï¿½N DE LOS SEGMENTOS DEBE CAMBIAR AL MISMO TIEMPO QUE EL DE HABILITACIï¿½N DE LOS SEGMENTOS
+-- [x]SE DEBE CREAR OTRA INSTANCIA DE PRESCALER PARA ADAPTAR EL RELOJ A LA FRECUENCIA DE REFRESCO
+-- [x] Actualizar TESTBENCH de Top DECODER
+-- [x] Actualizar TESTBENCH de Top CUENTA-DECODER
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity Top_cuenta_decoder is
      generic(
-     itime : positive := 12
+     itime : natural := 12
      );
      Port ( 
         CE      : in STD_LOGIC;
@@ -28,13 +28,13 @@ architecture Behavioral of Top_cuenta_decoder is
     -- CUENTA --
     COMPONENT cuenta IS
         GENERIC(
-        itime : positive := 120
+        itime : natural := 120
         );
         PORT(
         CE : in STD_LOGIC;
         RST_N : in STD_LOGIC;
         clk : in STD_LOGIC;
-        seconds : out positive;
+        seconds : out natural;
         ignition : out STD_LOGIC := '0';
         last10 : out STD_LOGIC := '0'
         );
@@ -43,8 +43,8 @@ architecture Behavioral of Top_cuenta_decoder is
     -- PRESCALER TO USER CLOCK
     component Prescaler
         generic (
-        clk_o  : positive := 10; -- Original frequency
-        clk_f  : positive := 1   -- Final frequency
+        clk_o  : natural := 10; -- Original frequency
+        clk_f  : natural := 1   -- Final frequency
         );
         port (RST_N  : in std_logic;
               CLK    : in std_logic;
@@ -55,7 +55,7 @@ architecture Behavioral of Top_cuenta_decoder is
     component Top_decoder
         PORT (
         clk     : IN std_logic;
-        seconds : IN positive;
+        seconds : IN natural;
         sseg    : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
         ANi     : OUT STD_LOGIC_VECTOR(7 DOWNTO 0):= "00000001"
         );

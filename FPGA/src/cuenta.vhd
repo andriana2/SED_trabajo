@@ -6,13 +6,13 @@ use ieee.numeric_std.all;
 
 ENTITY cuenta IS
     GENERIC(
-    itime : positive := 120
+    itime : natural := 120
     );
     PORT(
     CE : in STD_LOGIC:= '0';
     RST_N : in STD_LOGIC :='1';
     clk : in STD_LOGIC;
-    seconds : out positive;
+    seconds : out natural;
     ignition : out STD_LOGIC := '0';
     last10 : out STD_LOGIC := '0'
     );
@@ -22,8 +22,8 @@ ARCHITECTURE la OF cuenta IS
     
     BEGIN
     PROCESS (CLK,RST_N,CE)
-        variable max_time : positive := 900;
-        VARIABLE seconds_s : POSITIVE := itime;
+        variable max_time : natural := 900;
+        VARIABLE seconds_s : natural := itime;
         VARIABLE FFT : STD_LOGIC := '0'; --FLAG FIRST TIME
         
         BEGIN 
@@ -40,13 +40,15 @@ ARCHITECTURE la OF cuenta IS
             END IF FFT_check;
             -- COUNT DOWN
             CEIF:IF CE = '1' THEN
-                IF rising_edge(CLK) and seconds_s/=0 THEN
-                seconds_s := seconds_s -1 ;
-                END IF;
+                f_if_count_down:IF rising_edge(CLK) THEN
+                    s_if_count_down: IF seconds_s>0 THEN
+                        seconds_s := seconds_s -1 ;
+                    END IF s_if_count_down;
+                END IF f_if_count_down;
             END IF CEIF;
                 seconds <= seconds_s;
                 -- IGNITION
-                IF seconds_s=0 THEN ignition <= '1'; END IF;
+                IF seconds_s=0 THEN ignition <= '1'; ELSE ignition <= '0'; END IF;
                 -- LAST 10 seconds
                 IF seconds_s<=10 THEN last10 <= '1'; END IF;
             
