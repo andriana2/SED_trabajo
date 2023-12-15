@@ -1,9 +1,3 @@
--- CAMBIOS EN TOP DECODER 
--- [x]SOLO PASAN UN  VECTOR DE ACTIVACIÓN DE LOS DIFERENTES SEGMENTOS EN LUGAR DE UNO POR SEGMENTO
--- [x]DEBEN PASAR UN VECTOR DE HABILITACIÓN DE LOS DIFERENTES SEGMENTOS
--- [x]EL VECTOR DE ACTIVACIÓN DE LOS SEGMENTOS DEBE CAMBIAR AL MISMO TIEMPO QUE EL DE HABILITACIÓN DE LOS SEGMENTOS
--- [] Actualizar TESTBENCH de Top DECODER
-
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.std_logic_arith.ALL;
@@ -54,7 +48,7 @@ BEGIN
             END IF; 
             ANi <= ANi_var;
     END PROCESS refresh;
-    -- Cada vez que se actualiza el valor de seconds, se actualiza también su descomposición
+    -- Cada vez que se actualiza el valor de seconds, se actualiza tambiï¿½n su descomposiciï¿½n
     digit_separator:PROCESS (seconds)
         TYPE positive_array is  array (2 DOWNTO 0) of positive;
         Variable digits_var : positive_array; --:=(Positive'(0),Positive'(0),Positive'(0));
