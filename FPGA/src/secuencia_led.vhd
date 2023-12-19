@@ -10,11 +10,12 @@ entity secuencia_led is
     port(
         RST_N   : in std_logic;
         clk     : in std_logic;
-        end_game: out std_logic;
-        light   : out std_logic_vector(2 downto 0);
-        button1 : out std_logic_vector(width-1 downto 0);
-        button2 : out std_logic_vector(width-1 downto 0);
-        button3 : out std_logic_vector(width-1 downto 0)
+        CE      : in std_logic;
+        CE_botones: out std_logic;
+        light     : out std_logic_vector(2 downto 0);
+        button1   : out std_logic_vector(width-1 downto 0);
+        button2   : out std_logic_vector(width-1 downto 0);
+        button3   : out std_logic_vector(width-1 downto 0)
     );
 end secuencia_led;
 
@@ -37,8 +38,8 @@ process(clk, RST_N)
             button3_s <= (others => '0');
             count := 0;
             value := secuencia;
-            end_game <= '0';
-        elsif rising_edge(clk) then
+            CE_botones <= '0';
+        elsif rising_edge(clk) and CE = '1' then
             light_s <= (others => '0');
             --wait for 100 ns;
 			if (flag = 0) then flag := 1;
@@ -65,7 +66,7 @@ process(clk, RST_N)
 
               value := value / 10;
               count := count + 1;
-              if value = 0 then end_game <= '1'; end if;
+              if count = width then CE_botones <= '1'; end if;
         	end if;
         end if;
 end process;
