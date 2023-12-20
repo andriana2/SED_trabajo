@@ -1,4 +1,3 @@
---https://edaplayground.com/x/XU2b
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.numeric_std.ALL;
@@ -12,31 +11,22 @@ entity secuencia_led is
         clk     : in std_logic;
         CE      : in std_logic;
         CE_botones: out std_logic;
-        light     : out std_logic_vector(2 downto 0);
-        button1   : out std_logic_vector(width-1 downto 0);
-        button2   : out std_logic_vector(width-1 downto 0);
-        button3   : out std_logic_vector(width-1 downto 0)
+        light     : out std_logic_vector(2 downto 0)
     );
 end secuencia_led;
 
 architecture Behavioral of secuencia_led is 
     signal light_s   : std_logic_vector(2 downto 0) := (others => '0');
-    signal button1_s : std_logic_vector(width-1 downto 0) := (others => '0');
-    signal button2_s : std_logic_vector(width-1 downto 0) := (others => '0');
-    signal button3_s : std_logic_vector(width-1 downto 0) := (others => '0');
 begin
 process(clk, RST_N)
-        variable count : integer := 0;
+        variable count : integer := width;
         variable digit : integer := 0;
         variable value : integer := secuencia;
         variable flag  : integer := 0;
     begin
-        if RST_N = '1' then 
+        if RST_N = '0' then 
             light_s <= "000";
-            button1_s <= (others => '0');
-            button2_s <= (others => '0');
-            button3_s <= (others => '0');
-            count := 0;
+            count := width;
             value := secuencia;
             CE_botones <= '0';
         elsif rising_edge(clk) and CE = '1' then
@@ -44,35 +34,21 @@ process(clk, RST_N)
             --wait for 100 ns;
 			if (flag = 0) then flag := 1;
             else
-              flag := 0;
-              digit := value mod 10;
-              if digit < 1 or digit > 3 then 
-                  digit := 1;
-              end if;
+                flag := 0;
+                digit := value mod 10;
+            if digit > 3 then 
+                digit := 1; 
+                
+            end if;
 
               light_s(digit-1) <= '1';
-              
-
-              case digit is
-                  when 1 =>
-                      button1_s(count) <= '1';
-                  when 2 =>
-                      button2_s(count) <= '1';
-                  when 3 =>
-                      button3_s(count) <= '1';
-                  when others =>
-                      null;
-              end case;
-
+				if count = 0 then CE_botones <= '1'; end if;
               value := value / 10;
-              count := count + 1;
-              if count = width then CE_botones <= '1'; end if;
+              count := count - 1;
+              
         	end if;
         end if;
 end process;
-    button1 <= button1_s;
-    button2 <= button2_s;
-    button3 <= button3_s;
     light <= light_s;
 
 end Behavioral;
