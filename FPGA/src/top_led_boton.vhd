@@ -6,9 +6,9 @@ entity top_comparador is
         secuencia : integer := 1231;
         width : positive := 4);
      Port ( 
-        RST_N   : in STD_LOGIC;
+        RST_N     : in STD_LOGIC;
         CE        : in std_logic;
-        CLK     : in std_logic;
+        CLK       : in std_logic;
         b1        : in std_logic;
         b2        : in std_logic;
         b3        : in std_logic;
@@ -43,7 +43,7 @@ architecture Behavioral of top_comparador is
             width : positive := 4);
         port(
             RST_N   : in std_logic;
-            clk     : in std_logic;
+            CLK     : in std_logic;
             CE      : in std_logic;
             CE_botones: out std_logic;
             light     : out std_logic_vector(2 downto 0);
@@ -61,9 +61,8 @@ architecture Behavioral of top_comparador is
         port ( 
           RST_N  : in   std_logic;
           CLK    : in   std_logic;
-          NewClk : out  std_logic
-        );
-      end component;
+          NewClk : out  std_logic);
+    end component;
 
     -- SYNCHRNZR --
     component SYNCHRNZR is
@@ -92,8 +91,8 @@ architecture Behavioral of top_comparador is
     signal button1   : std_logic_vector(width-1 downto 0);
     signal button2   : std_logic_vector(width-1 downto 0);
     signal button3   : std_logic_vector(width-1 downto 0);
-    signal CE_botones : std_logic;
-    signal NewClk : std_logic;
+    signal CE_botones: std_logic;
+    signal NewClk    : std_logic;
 
 
 begin

@@ -16,7 +16,7 @@ end Prescaler;
 architecture BEHAVIORAL of Prescaler is
 begin
   process (RST_N, CLK)
-    
+
     variable objetive : positive := clk_o/clk_f; -- Cantidad de ciclos a contar
     subtype count_t is natural range 0 to objetive; -- Cantidad de ciclos hasta flanco de subida o bajada
     variable count : count_t;

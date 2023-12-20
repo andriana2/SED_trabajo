@@ -37,11 +37,11 @@ begin
         elsif end_time = '1' and current_state /= S6 then
             current_state <= S7;
         end if;
-    end process;
+    end process; 
 
     nextstate_decod: process (current_state, CE, pass_game)
+    variable count : integer := 0;
     begin
-        variable count : integer := 0;
         next_state <= current_state;
         case current_state is
             when S0 =>

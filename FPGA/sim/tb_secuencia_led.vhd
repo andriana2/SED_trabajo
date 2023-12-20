@@ -16,9 +16,6 @@ architecture tb of tb_secuencia_led is
               CE         : in std_logic;
               CE_botones : out std_logic;
               light      : out std_logic_vector (2 downto 0);
-              button1    : out std_logic_vector (3 downto 0);
-              button2    : out std_logic_vector (3 downto 0);
-              button3    : out std_logic_vector (3 downto 0));
     end component;
 
     signal RST_N      : std_logic;
@@ -26,9 +23,6 @@ architecture tb of tb_secuencia_led is
     signal CE         : std_logic;
     signal CE_botones : std_logic;
     signal light      : std_logic_vector (2 downto 0);
-    signal button1    : std_logic_vector (3 downto 0);
-    signal button2    : std_logic_vector (3 downto 0);
-    signal button3    : std_logic_vector (3 downto 0);
 
     constant TbPeriod : time := 1000 ns; -- EDIT Put right period here
     signal TbClock : std_logic := '0';
