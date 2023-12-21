@@ -29,6 +29,16 @@ ARCHITECTURE la OF cuenta IS
         BEGIN 
             RST_NIF: IF RST_N = '0' THEN FFT := '0'; END IF RST_NIF;
             
+
+            -- COUNT DOWN
+            CEIF:IF CE = '1' and FFT = '1' THEN
+                f_if_count_down:IF rising_edge(CLK) THEN
+                    s_if_count_down: IF seconds_s>0 THEN
+                        seconds_s := seconds_s -1 ;
+                    END IF s_if_count_down;
+                END IF f_if_count_down;
+            END IF CEIF;
+            
             -- Se verifica que el tiempo introducido no supere el máximo permitido. Solo se hace una vez por cuenta atrás.
             FFT_check:IF FFT = '0' THEN
                         timecompare :IF itime>max_time THEN
@@ -38,14 +48,7 @@ ARCHITECTURE la OF cuenta IS
                         END IF timecompare;
                     FFT := '1';
             END IF FFT_check;
-            -- COUNT DOWN
-            CEIF:IF CE = '1' THEN
-                f_if_count_down:IF rising_edge(CLK) THEN
-                    s_if_count_down: IF seconds_s>0 THEN
-                        seconds_s := seconds_s -1 ;
-                    END IF s_if_count_down;
-                END IF f_if_count_down;
-            END IF CEIF;
+            
                 seconds <= seconds_s;
                 -- IGNITION
                 IF seconds_s=0 THEN ignition <= '1'; ELSE ignition <= '0'; END IF;
