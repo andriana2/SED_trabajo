@@ -13,14 +13,15 @@ use ieee.numeric_std.all;
 ENTITY Top_decoder IS
     PORT (
         clk     : IN std_logic;
-        seconds : IN positive;
-        level   : IN positive;
+        seconds : IN natural;
+        level   : IN integer;
         sseg    : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
         ANi     : OUT STD_LOGIC_VECTOR(7 DOWNTO 0):= "00000001"
     );
 END ENTITY Top_decoder;
 
 ARCHITECTURE dataflow OF Top_decoder IS
+
     COMPONENT decoder
     PORT (
         code : IN std_logic_vector(3 DOWNTO 0);
@@ -34,7 +35,7 @@ ARCHITECTURE dataflow OF Top_decoder IS
     SIGNAL ssegms_decoded : ssegms_array;
     
 BEGIN
-
+    
     refresh: PROCESS (clk)
         variable ANi_var : STD_LOGIC_VECTOR (ANi'range);
         BEGIN 
