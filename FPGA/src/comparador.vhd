@@ -10,8 +10,9 @@ entity comparador is
         RST_N : in std_logic;
         clk   : in std_logic;
         CE : in std_logic;
-        equal : out std_logic);
+        pass_game : out std_logic);
 end comparador;
+
 
 architecture Behavioral of comparador is 
 signal salida : std_logic;
@@ -28,7 +29,7 @@ begin
             end if;
         end if;
     end process;
-    equal <= salida;
+    pass_game <= salida;
 end Behavioral;
 
 

@@ -11,7 +11,7 @@ entity secuencia_led is
         clk     : in std_logic;
         CE      : in std_logic;
         CE_botones: out std_logic;
-        light     : out std_logic_vector(2 downto 0)
+        light_j2     : out std_logic_vector(2 downto 0)
     );
 end secuencia_led;
 
@@ -49,7 +49,7 @@ process(clk, RST_N)
         	end if;
         end if;
 end process;
-    light <= light_s;
+    light_j2 <= light_s;
 
 end Behavioral;
 -- ten en cuenta que la secuencia es 1231 pero lo cuenta al revés
