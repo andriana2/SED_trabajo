@@ -1,11 +1,3 @@
--- CAMBIOS EN TOP DECODER Y TOP CUENTA-DECODER
--- [x]SOLO PASAN UN  VECTOR DE ACTIVACIÓN DE LOS DIFERENTES SEGMENTOS EN LUGAR DE UNO POR SEGMENTO
--- [x]DEBEN PASAR UN VECTOR DE HABILITACIÓN DE LOS DIFERENTES SEGMENTOS
--- [x]EL VECTOR DE ACTIVACIÓN DE LOS SEGMENTOS DEBE CAMBIAR AL MISMO TIEMPO QUE EL DE HABILITACIÓN DE LOS SEGMENTOS
--- [-]SE DEBE CREAR OTRA INSTANCIA DE PRESCALER PARA ADAPTAR EL RELOJ A LA FRECUENCIA DE REFRESCO
--- [] Actualizar TESTBENCH de Top DECODER
--- [] Actualizar TESTBENCH de Top CUENTA-DECODER
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
@@ -22,7 +14,6 @@ entity Top_cuenta_decoder is
         CE_light    : in std_logic;
         rgb_led : OUT STD_LOGIC_VECTOR (5 DOWNTO 0):="000000";
         ignition: out STD_LOGIC := '0';
-        last10  : out STD_LOGIC := '0';
         sseg    : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
         AN     : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
      );
@@ -56,8 +47,7 @@ architecture Behavioral of Top_cuenta_decoder is
         RST_N : in STD_LOGIC;
         clk : in STD_LOGIC;
         seconds : out natural;
-        ignition : out STD_LOGIC := '0';
-        last10 : out STD_LOGIC := '0'
+        ignition : out STD_LOGIC := '0'
         );
     END COMPONENT cuenta;
 
@@ -148,8 +138,7 @@ begin
          RST_N => RST_N,
          clk     => user_clk,
          seconds => seconds,
-         ignition => ignition,
-        last10 => last10
+         ignition => ignition
         );
     
     dut3 : Top_decoder

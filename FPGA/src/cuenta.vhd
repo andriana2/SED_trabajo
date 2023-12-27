@@ -13,8 +13,7 @@ ENTITY cuenta IS
     RST_N : in STD_LOGIC :='1';
     clk : in STD_LOGIC;
     seconds : out natural;
-    ignition : out STD_LOGIC := '0';
-    last10 : out STD_LOGIC := '0'
+    ignition : out STD_LOGIC := '0'
     );
 END ENTITY cuenta;
 
@@ -52,8 +51,7 @@ ARCHITECTURE la OF cuenta IS
                 seconds <= seconds_s;
                 -- IGNITION
                 IF seconds_s=0 THEN ignition <= '1'; ELSE ignition <= '0'; END IF;
-                -- LAST 10 seconds
-                IF seconds_s<=10 THEN last10 <= '1'; END IF;
+
             
     END PROCESS;
 
