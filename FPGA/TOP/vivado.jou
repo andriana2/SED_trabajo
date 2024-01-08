@@ -1,0 +1,27 @@
+#-----------------------------------------------------------
+# Vivado v2023.1 (64-bit)
+# SW Build 3865809 on Sun May  7 15:05:29 MDT 2023
+# IP Build 3864474 on Sun May  7 20:36:21 MDT 2023
+# SharedData Build 3865790 on Sun May 07 13:33:03 MDT 2023
+# Start of session at: Mon Jan  8 13:21:34 2024
+# Process ID: 9388
+# Current directory: C:/Users/chusl/Desktop/Nuevo top/TOP
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent12492 C:\Users\chusl\Desktop\Nuevo top\TOP\TOP.xpr
+# Log file: C:/Users/chusl/Desktop/Nuevo top/TOP/vivado.log
+# Journal file: C:/Users/chusl/Desktop/Nuevo top/TOP\vivado.jou
+# Running On: LAPTOP-5T2MNOHM, OS: Windows, CPU Frequency: 1498 MHz, CPU Physical cores: 4, Host memory: 16951 MB
+#-----------------------------------------------------------
+start_gui
+open_project {C:/Users/chusl/Desktop/Nuevo top/TOP/TOP.xpr}
+update_compile_order -fileset sources_1
+open_hw_manager
+connect_hw_server -allow_non_jtag
+open_hw_target
+set_property PROGRAM.FILE {C:/Users/chusl/Desktop/Nuevo top/TOP/TOP.runs/impl_1/top.bit} [get_hw_devices xc7a100t_0]
+current_hw_device [get_hw_devices xc7a100t_0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a100t_0] 0]
+set_property PROBES.FILE {} [get_hw_devices xc7a100t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7a100t_0]
+set_property PROGRAM.FILE {C:/Users/chusl/Desktop/Nuevo top/TOP/TOP.runs/impl_1/top.bit} [get_hw_devices xc7a100t_0]
+program_hw_devices [get_hw_devices xc7a100t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]

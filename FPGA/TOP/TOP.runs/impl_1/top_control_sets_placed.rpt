@@ -1,0 +1,114 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
+| Date         : Mon Jan  8 17:57:20 2024
+| Host         : LAPTOP-5T2MNOHM running 64-bit major release  (build 9200)
+| Command      : report_control_sets -verbose -file top_control_sets_placed.rpt
+| Design       : top
+| Device       : xc7a100t
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |    36 |
+|    Minimum number of control sets                        |    36 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |   182 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |    36 |
+| >= 0 to < 4        |    14 |
+| >= 4 to < 6        |     3 |
+| >= 6 to < 8        |     3 |
+| >= 8 to < 10       |     1 |
+| >= 10 to < 12      |     1 |
+| >= 12 to < 14      |     1 |
+| >= 14 to < 16      |     1 |
+| >= 16              |    12 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |              39 |           24 |
+| No           | No                    | Yes                    |             164 |           52 |
+| No           | Yes                   | No                     |               3 |            3 |
+| Yes          | No                    | No                     |               6 |            3 |
+| Yes          | No                    | Yes                    |             310 |           94 |
+| Yes          | Yes                   | No                     |               0 |            0 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++----------------------------------------------+-----------------------+---------------------------------------------+------------------+----------------+--------------+
+|                 Clock Signal                 |     Enable Signal     |               Set/Reset Signal              | Slice Load Count | Bel Load Count | Bels / Slice |
++----------------------------------------------+-----------------------+---------------------------------------------+------------------+----------------+--------------+
+|  dut14/newClk_s_reg_i_2__2_n_1               |                       |                                             |                1 |              1 |         1.00 |
+| ~RST_N_IBUF_BUFG                             |                       | dut6/dut0/led_no_s2                         |                1 |              1 |         1.00 |
+| ~RST_N_IBUF_BUFG                             |                       | dut2/dut0/led_no_s2                         |                1 |              1 |         1.00 |
+|  dut8/final_lights_clk/newClk_s_reg_i_2_n_1  |                       |                                             |                1 |              1 |         1.00 |
+|  dut8/to_user_clk/newClk_s_reg_i_2__0_n_1    |                       |                                             |                1 |              1 |         1.00 |
+|  CLK_IBUF_BUFG                               | dut6/dut11/CE_botones | dut6/dut0/led_no_s_i_2__1_n_1               |                1 |              1 |         1.00 |
+|  dut8/to_refresh_clk/newClk_s_reg_i_2__1_n_1 |                       |                                             |                1 |              1 |         1.00 |
+|  n_0_7136_BUFG                               |                       |                                             |                1 |              1 |         1.00 |
+|  dut7/CE_RGB                                 |                       |                                             |                1 |              1 |         1.00 |
+|  dut7/CE_cuenta_s_reg_i_2_n_1                |                       |                                             |                1 |              1 |         1.00 |
+|  CLK_IBUF_BUFG                               | dut4/dut11/CE_botones | dut4/dut0/led_no_s_i_2__0_n_1               |                1 |              1 |         1.00 |
+|  CLK_IBUF_BUFG                               | dut2/dut11/CE_botones | dut2/dut0/led_no_s_i_2_n_1                  |                1 |              1 |         1.00 |
+| ~RST_N_IBUF_BUFG                             |                       | dut4/dut0/led_no_s2                         |                1 |              1 |         1.00 |
+|  CLK_LED_BUFG                                |                       |                                             |                2 |              3 |         1.50 |
+|  CLK_IBUF_BUFG                               | dut2/dut11/CE_botones | dut6/dut11/RST_N_IBUF_BUFG_inst             |                2 |              4 |         2.00 |
+|  CLK_IBUF_BUFG                               | dut6/dut11/CE_botones | dut6/dut11/RST_N_IBUF_BUFG_inst             |                2 |              4 |         2.00 |
+|  CLK_IBUF_BUFG                               | dut4/dut11/CE_botones | dut6/dut11/RST_N_IBUF_BUFG_inst             |                2 |              4 |         2.00 |
+|  dut8/final_lights_clk/CLK                   |                       | dut7/AR[0]                                  |                2 |              6 |         3.00 |
+|  dut8/final_lights_clk/CLK                   | dut7/E[0]             |                                             |                3 |              6 |         2.00 |
+|  dut7/AR[0]                                  |                       |                                             |                4 |              7 |         1.75 |
+|  CLK_IBUF_BUFG                               |                       | dut6/dut11/RST_N_IBUF_BUFG_inst             |                6 |              9 |         1.50 |
+|  dut8/to_refresh_clk/CLK                     |                       |                                             |                6 |             10 |         1.67 |
+|  CLK_LED_BUFG                                |                       | dut6/dut11/RST_N_IBUF_BUFG_inst             |                8 |             12 |         1.50 |
+|  CLK_IBUF_BUFG                               |                       |                                             |                5 |             15 |         3.00 |
+|  CLK_IBUF_BUFG                               |                       | dut8/to_refresh_clk/newClk_s_reg_i_2__1_n_1 |                5 |             20 |         4.00 |
+|  CLK_IBUF_BUFG                               |                       | dut8/final_lights_clk/newClk_s_reg_i_2_n_1  |                7 |             25 |         3.57 |
+|  CLK_IBUF_BUFG                               |                       | dut14/newClk_s_reg_i_2__2_n_1               |                7 |             27 |         3.86 |
+|  CLK_IBUF_BUFG                               | dut2/dut11/E[0]       | dut6/dut11/RST_N_IBUF_BUFG_inst             |                9 |             28 |         3.11 |
+|  CLK_IBUF_BUFG                               | dut6/dut11/E[0]       | dut6/dut11/RST_N_IBUF_BUFG_inst             |                9 |             28 |         3.11 |
+|  CLK_IBUF_BUFG                               | dut4/dut11/E[0]       | dut6/dut11/RST_N_IBUF_BUFG_inst             |               10 |             28 |         2.80 |
+|  CLK_IBUF_BUFG                               |                       | dut8/to_user_clk/newClk_s_reg_i_2__0_n_1    |                7 |             28 |         4.00 |
+|  user_clk                                    | dut8/dut2/seconds_s0  | n_0_7136_BUFG                               |                8 |             31 |         3.88 |
+|  level_up_BUFG                               |                       | dut6/dut11/RST_N_IBUF_BUFG_inst             |               10 |             37 |         3.70 |
+|  CLK_LED_BUFG                                | dut4/dut11/value0     | dut6/dut11/RST_N_IBUF_BUFG_inst             |               17 |             60 |         3.53 |
+|  CLK_LED_BUFG                                | dut2/dut11/value0     | dut6/dut11/RST_N_IBUF_BUFG_inst             |               16 |             60 |         3.75 |
+|  CLK_LED_BUFG                                | dut6/dut11/value0     | dut6/dut11/RST_N_IBUF_BUFG_inst             |               16 |             60 |         3.75 |
++----------------------------------------------+-----------------------+---------------------------------------------+------------------+----------------+--------------+
+
+

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="synth_1" LaunchPart="xc7a100tcsg324-1" LaunchTime="1704732898" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/top.dcp">
+  <File Type="PA-TCL" Name="top.tcl"/>
+  <File Type="RDS-PROPCONSTRS" Name="top_drc_synth.rpt"/>
+  <File Type="REPORTS-TCL" Name="top_reports.tcl"/>
+  <File Type="RDS-RDS" Name="top.vds"/>
+  <File Type="RDS-UTIL" Name="top_utilization_synth.rpt"/>
+  <File Type="RDS-UTIL-PB" Name="top_utilization_synth.pb"/>
+  <File Type="RDS-DCP" Name="top.dcp"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="top_timing_summary_synth.rpt"/>
+  <File Type="VDS-TIMING-PB" Name="top_timing_summary_synth.pb"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PSRCDIR/sources_1/imports/Trabajo mio/SED/FPGA/src/EDGEDTCTR.vhd">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../SED/FPGA/src/EDGEDTCTR.vhd"/>
+        <Attr Name="ImportTime" Val="1703028088"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/Trabajo mio/SED/FPGA/src/SYNCHRNZR.vhd">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../SED/FPGA/src/SYNCHRNZR.vhd"/>
+        <Attr Name="ImportTime" Val="1703068826"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/Trabajo mio/TOP_CUENTA_DECODER_FINAL/Top_cuenta_decoder.vhd">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../TOP_CUENTA_DECODER_FINAL/Top_cuenta_decoder.vhd"/>
+        <Attr Name="ImportTime" Val="1703243209"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/Trabajo mio/TOP_CUENTA_DECODER_FINAL/Top_decoder.vhd">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../TOP_CUENTA_DECODER_FINAL/Top_decoder.vhd"/>
+        <Attr Name="ImportTime" Val="1703243209"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/src/comparador.vhd">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../SED/FPGA/src/comparador.vhd"/>
+        <Attr Name="ImportTime" Val="1703201582"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/Trabajo mio/TOP_CUENTA_DECODER_FINAL/cuenta.vhd">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../TOP_CUENTA_DECODER_FINAL/cuenta.vhd"/>
+        <Attr Name="ImportTime" Val="1703243209"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/Trabajo mio/TOP_CUENTA_DECODER_FINAL/decoder.vhd">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../TOP_CUENTA_DECODER_FINAL/decoder.vhd"/>
+        <Attr Name="ImportTime" Val="1703243209"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/Trabajo mio/TOP_CUENTA_DECODER_FINAL/final_light.vhd">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../TOP_CUENTA_DECODER_FINAL/final_light.vhd"/>
+        <Attr Name="ImportTime" Val="1703243209"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/Trabajo mio/TOP_CUENTA_DECODER_FINAL/level_counter.vhd">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../TOP_CUENTA_DECODER_FINAL/level_counter.vhd"/>
+        <Attr Name="ImportTime" Val="1703243209"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/Trabajo mio/SED/FPGA/src/maquina_estados.vhd">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../SED/FPGA/src/maquina_estados.vhd"/>
+        <Attr Name="ImportTime" Val="1703242364"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/Trabajo mio/TOP_CUENTA_DECODER_FINAL/prescaler.vhd">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../TOP_CUENTA_DECODER_FINAL/prescaler.vhd"/>
+        <Attr Name="ImportTime" Val="1703243209"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/Trabajo mio/SED/FPGA/src/secuencia_botones.vhd">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../SED/FPGA/src/secuencia_botones.vhd"/>
+        <Attr Name="ImportTime" Val="1703154182"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/Trabajo mio/SED/FPGA/src/secuencia_led.vhd">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../SED/FPGA/src/secuencia_led.vhd"/>
+        <Attr Name="ImportTime" Val="1703238653"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/Trabajo mio/SED/FPGA/src/top_lb.vhd">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../SED/FPGA/src/top_lb.vhd"/>
+        <Attr Name="ImportTime" Val="1703241138"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/Trabajo mio/SED/FPGA/src/top.vhd">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../SED/FPGA/src/top.vhd"/>
+        <Attr Name="ImportTime" Val="1703243002"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="top"/>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <File Path="$PSRCDIR/constrs_1/imports/Lab_mio/Nexys-4-DDR-Master.xdc">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../Lab_mio/Nexys-4-DDR-Master.xdc"/>
+        <Attr Name="ImportTime" Val="1696840924"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1" RelGenDir="$PGENDIR/utils_1">
+    <Filter Type="Utils"/>
+    <File Path="$PSRCDIR/utils_1/imports/synth_1/top.dcp">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedInSteps" Val="synth_1"/>
+        <Attr Name="AutoDcp" Val="1"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2023"/>
+    <Step Id="synth_design"/>
+  </Strategy>
+</GenRun>

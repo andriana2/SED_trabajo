@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Vivado v2023.1 (64-bit)
+# SW Build 3865809 on Sun May  7 15:05:29 MDT 2023
+# IP Build 3864474 on Sun May  7 20:36:21 MDT 2023
+# SharedData Build 3865790 on Sun May 07 13:33:03 MDT 2023
+# Start of session at: Mon Jan  8 17:56:22 2024
+# Process ID: 1552
+# Current directory: C:/Users/chusl/Desktop/Nuevo top/TOP/TOP.runs/impl_1
+# Command line: vivado.exe -log top.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source top.tcl -notrace
+# Log file: C:/Users/chusl/Desktop/Nuevo top/TOP/TOP.runs/impl_1/top.vdi
+# Journal file: C:/Users/chusl/Desktop/Nuevo top/TOP/TOP.runs/impl_1\vivado.jou
+# Running On: LAPTOP-5T2MNOHM, OS: Windows, CPU Frequency: 1498 MHz, CPU Physical cores: 4, Host memory: 16951 MB
+#-----------------------------------------------------------
+source top.tcl -notrace
