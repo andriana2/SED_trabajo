@@ -11,6 +11,7 @@ El proyecto de VHDL para Sistemas Electrónicos Digitales de nuestro grupo consi
 
 ## Descripción del Código Microcontrolador:
 
+Este trabajo se centra en el diseño y implementación de funciones domóticas específicas en un microcontrolador STM32F411E, enfocándose en el control de iluminación y gestión de temperatura en entornos residenciales. Incluye un sistema de alarma de temperatura, control de luz de habitación por botón físico, ajuste inteligente de la iluminación del jardín según la luminosidad, encendido y apagado automático de luces por detección de movimiento, y una interfaz de usuario a través de una pantalla LCD. Se han creado librerías específicas para contribuir a un desarrollo eficiente y modular, permitiendo fácil comprensión, mantenimiento y reutilización del sistema.
 
 
 
