@@ -18,6 +18,9 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "ds18b20.h"
+#include "lcd_i2cModule.h"
+#include "stdio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -53,6 +56,8 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 
+uint32_t LCD_Menu=0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -71,6 +76,118 @@ static void MX_USART2_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+//variables de control de temperatura
+float Temperature = 0;
+
+//variables de control de la habitacion
+volatile int boton_habitacion=0;
+int estadohabitacion=0;
+
+//variables de control de jardin
+int16_t adcval_jardin;
+uint32_t periodo=255;
+int estadojardin=0;
+
+//variables de control de pasillo
+uint32_t echo, delay2;
+float dis;
+int estadopasillo=0;
+
+//Conexion para el sensor de ultrasonidos
+#ifdef GNUC
+#define PUTCHAR_PROTOTYPE int to_putchar (int ch)
+#else
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#endif
+PUTCHAR_PROTOTYPE{
+	HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 10);
+	return ch;
+}
+
+//Interrupcion del ADC
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
+	 if (hadc->Instance == ADC1){
+	 adcval_jardin = HAL_ADC_GetValue(&hadc1);
+	 }
+	}
+
+//Interrupcion del boton del pulsador
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	if(GPIO_Pin==GPIO_PIN_2)
+		boton_habitacion=1;
+}
+
+//Debouncer del pulsador de la habitacion
+int debouncer(volatile int* boton_habitacion, GPIO_TypeDef* GPIO_port, uint16_t GPIO_number){
+	static uint8_t button_count=0;
+	static int counter=0;
+
+	if(*boton_habitacion==1){
+		if (button_count==0){
+			counter=HAL_GetTick();
+			button_count++;
+		}
+		if(HAL_GetTick()-counter>=20){
+			counter=HAL_GetTick();
+			if(HAL_GPIO_ReadPin(GPIO_port,GPIO_number)!=1){
+				button_count=1;
+			}
+			else{
+				button_count++;
+			}
+			if(button_count==4){
+				button_count=0;
+				*boton_habitacion=0;
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+//Temporizador del sensor de temperatura
+void delay (uint16_t time)
+{
+	__HAL_TIM_SET_COUNTER(&htim11, 0);
+	while ((__HAL_TIM_GET_COUNTER(&htim11))<time);
+}
+
+//Zumbador del control de temperatura
+void AlarmSet(double alarm_level)
+{
+	if(Temperature <= 0  || Temperature >= 30)
+	{
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);      //Alarma On con LED ROJO
+	    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+	}
+	else
+	{
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);    //Alarm Off con LED VERDE
+	    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+	}
+}
+
+//Control del menu por medio del boton
+void Button_Set()
+{
+	static uint32_t button=0, button_flag=0, counter=0;
+
+	button = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0);
+    if(button)
+			button_flag=1;
+
+		  if(!button&&button_flag==1){
+				button_flag=0;
+				counter++;
+				if(counter == 1) LCD_Menu = 1;
+				if(counter == 2) LCD_Menu = 2;
+				if(counter == 3) LCD_Menu = 3;
+				if(counter == 4) LCD_Menu = 4;
+                if(counter == 5) {counter = 0; LCD_Menu = 0;}
+			}
+}
 
 /* USER CODE END 0 */
 
@@ -111,6 +228,30 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  //Temporizador de jardin
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
+
+  //Temporizador de temperatura
+  HAL_TIM_Base_Start(&htim11);
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+
+  //Temporizador de pasillo
+  HAL_TIM_Base_Start(&htim10);
+  HAL_TIM_PWM_Start(&htim10, TIM_CHANNEL_1);
+  HAL_TIM_IC_Start(&htim1, TIM_CHANNEL_1);
+  TIM10->CCR1 =3;
+
+  //Muestra del menu LCD
+  LCD_i2cDeviceCheck();
+  LCD_Init();
+  LCD_BackLight(LCD_BL_ON);
+  LCD_SetCursor(1,1);
+  LCD_Send_String("INICIANDO>>>>",STR_NOSLIDE);
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+  HAL_Delay(2000);
+  LCD_Clear ();
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -118,6 +259,108 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+
+	  	  	  	  //Funcion del boton del menu
+	          	Button_Set();
+
+	             //Funcion que calcula la temperatura
+	          	Temperature =  DS18B20_Get_Temp();
+	          	AlarmSet(0);
+
+	             //Uso del debouncer para el boton de la habitacion
+	          	if(debouncer(&boton_habitacion,GPIOA,GPIO_PIN_2)){
+	          		estadohabitacion++;
+	          		HAL_GPIO_TogglePin(GPIOD,GPIO_PIN_9);
+	          	}
+
+	             //Codigo para encender el Led del jardin
+	             HAL_ADC_Start_IT(&hadc1);
+	             if (adcval_jardin>=50){
+	             	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 0);
+	             	estadojardin=0;
+	             }
+	            else{
+	         	   __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, periodo-adcval_jardin*5);
+	                estadojardin=1;
+	            }
+	            HAL_ADC_Stop(&hadc1);
+
+	            //Codigo para encender el Led del pasillo segun la distancia
+	            if(HAL_GetTick()- delay2 >=100){
+	         	   delay2 = HAL_GetTick();
+	             	echo = HAL_TIM_ReadCapturedValue(&htim1, TIM_CHANNEL_1);
+	             	dis = echo / 11.60f;
+	            }
+	            if(dis<30)
+	            {
+	              	estadopasillo = 1;
+	              	HAL_GPIO_WritePin(GPIOD,GPIO_PIN_10,GPIO_PIN_SET);
+	            }
+	            else
+	            {
+	         	   estadopasillo = 0;
+	                HAL_GPIO_WritePin(GPIOD,GPIO_PIN_10,GPIO_PIN_RESET);
+	            }
+
+	            	   //Codigo para la gestion del menu en la pantalla LCD
+	             	switch(LCD_Menu)
+	                {
+	             	//Menu principal
+	             	case 0:
+	             		LCD_Clear ();
+	             		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+	             		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
+	             		LCD_SetCursor(1,1);
+	             		LCD_Send_String("Select Menu!",STR_NOSLIDE);
+	             		LCD_SetCursor(2,1);
+	             		LCD_Send_String("Push Blue Button",STR_NOSLIDE);
+	                 break;
+	                 //Menu de temperatura
+	                 case 1:
+	                 	LCD_Clear ();
+	                    	Display_Temp(Temperature);
+	                 break;
+	                 //Menu de la habitacion
+	                 case 2:
+	                 	LCD_Clear ();
+	                		LCD_SetCursor(1,1);
+	                		LCD_Send_String("LUZ HABITACION: ",STR_NOSLIDE);
+	                    	LCD_SetCursor(2,1);
+	                    	if(estadohabitacion%2==0)
+	                    		LCD_Send_String("       OFF",STR_NOSLIDE);
+	                    	else
+	                    		LCD_Send_String("       ON",STR_NOSLIDE);
+	                    	HAL_Delay(500);
+	                 break;
+	                 //Menu del jardin
+	                 case 3:
+	                 	LCD_Clear ();
+	                 	LCD_SetCursor(1,1);
+	                 	LCD_Send_String("LUZ JARDIN: ",STR_NOSLIDE);
+	                 	LCD_SetCursor(2,1);
+	                 	if(estadojardin==0)
+	                 		LCD_Send_String("       OFF",STR_NOSLIDE);
+	                 	if(estadojardin==1)
+	                 		LCD_Send_String("       ON",STR_NOSLIDE);
+	                 	HAL_Delay(500);
+	                 break;
+	                   //Menu del pasillo
+	                 case 4:
+	                 	LCD_Clear ();
+	                 	LCD_SetCursor(1,1);
+	                 	LCD_Send_String("LUZ PASILLO: ",STR_NOSLIDE);
+	                 	if(estadopasillo==0)
+	                 		LCD_Send_String("OFF",STR_NOSLIDE);
+	                 	if(estadopasillo==1)
+	                 		LCD_Send_String("ON",STR_NOSLIDE);
+	                 	Display_Dis(dis);
+	                 	HAL_Delay(500);
+	                break;
+	                //Otro caso
+	                 default:
+	                 	LCD_Clear ();
+	                 break;
+	                }
 
     /* USER CODE BEGIN 3 */
   }
@@ -141,15 +384,14 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = 8;
-  RCC_OscInitStruct.PLL.PLLN = 192;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
-  RCC_OscInitStruct.PLL.PLLQ = 8;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLM = 4;
+  RCC_OscInitStruct.PLL.PLLN = 50;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLQ = 4;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -161,7 +403,7 @@ void SystemClock_Config(void)
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_3) != HAL_OK)
