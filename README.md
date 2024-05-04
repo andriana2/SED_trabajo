@@ -1,4 +1,5 @@
 # Proyecto de Sistemas Electrónicos Digitales (SED)
+Se trata de una asignatura en 4to de ingeniería electrónica industrial y automática 
 
 **Realizado por:**
 - Andriana Dovhanych
